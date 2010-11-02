@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  mime_type: MyString
+  filename: MyString
+
+two:
+  mime_type: MyString
+  filename: MyString

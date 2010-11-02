@@ -1,0 +1,13 @@
+<p>
+  <b>Mime type:</b>
+  <%=h @asset.mime_type %>
+</p>
+
+<p>
+  <b>Filename:</b>
+  <%=h @asset.filename %>
+</p>
+
+
+<%= link_to 'Edit', edit_asset_path(@asset) %> |
+<%= link_to 'Back', assets_path %>
