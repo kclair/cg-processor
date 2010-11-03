@@ -1,2 +1,2 @@
 rails app to listen for incoming json data, process the data, and respond.
-to be used with cg-remoteassets.
+to be used with cg-remoteassets: https://github.com/kclair/cg-remoteassets
