@@ -1,0 +1,13 @@
+<p>
+  <b>Mime type:</b>
+  <%=h @remote_asset.mime_type %>
+</p>
+
+<p>
+  <b>Filename:</b>
+  <%=h @remote_asset.filename %>
+</p>
+
+
+<%= link_to 'Edit', edit_remote_asset_path(@remote_asset) %> |
+<%= link_to 'Back', remote_assets_path %>

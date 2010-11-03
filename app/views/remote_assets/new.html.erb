@@ -1,0 +1,19 @@
+<h1>New remote_asset</h1>
+
+<% form_for(@remote_asset) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :mime_type %><br />
+    <%= f.text_field :mime_type %>
+  </p>
+  <p>
+    <%= f.label :filename %><br />
+    <%= f.text_field :filename %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', remote_assets_path %>
