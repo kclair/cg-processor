@@ -1,10 +1,14 @@
 class RemoteAsset < ActiveRecord::Base
 
-  require 'base64'
-
-  def source=(base64_source)
-    file = File.join(RAILS_ROOT, 'tmp', "asset_#{Time.now.to_i}")
-    File.open(file, "wb") { |f| f.write(Base64.decode64(base64_source)) }
-  end
+=begin
+    t.string   "filename"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "mime_from"
+    t.string   "mime_to"
+    t.string   "respond_to_create"
+    t.string   "respond_to_update"
+    t.string   "source_url"
+=end
 
 end

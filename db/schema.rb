@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101103185449) do
+ActiveRecord::Schema.define(:version => 20101105001753) do
 
   create_table "assets", :force => true do |t|
     t.string   "mime_type"
@@ -19,10 +19,14 @@ ActiveRecord::Schema.define(:version => 20101103185449) do
   end
 
   create_table "remote_assets", :force => true do |t|
-    t.string   "mime_type"
     t.string   "filename"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "mime_from"
+    t.string   "mime_to"
+    t.string   "respond_to_create"
+    t.string   "respond_to_update"
+    t.string   "source_url"
   end
 
 end

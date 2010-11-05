@@ -40,19 +40,17 @@ class RemoteAssetsController < ApplicationController
   # POST /remote_assets
   # POST /remote_assets.xml
   def create
-    #@asset = Asset.new(params[:asset])
     @asset = RemoteAsset.new(JSON.parse(params[:asset]))
 
     respond_to do |format|
       if @asset.save
         format.html { redirect_to(@asset, :notice => 'Asset was successfully created.') }
         format.xml  { render :xml => @asset, :status => :created, :location => @asset }
-        #format.json { redirect_to(@asset, :notice => 'Asset was successfully created.') }
-        format.json { render :json => @asset.to_json }
+        format.json { render :json => {:result => 1}.to_json }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @asset.errors, :status => :unprocessable_entity }
-        format.json { render :json => @asset.errors }
+        format.json { render :json => {:result => 0, :errors => @asset.errors}.to_json }
       end
     end
   end

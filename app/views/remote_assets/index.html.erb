@@ -8,7 +8,7 @@
 
 <% @remote_assets.each do |remote_asset| %>
   <tr>
-    <td><%=h remote_asset.mime_type %></td>
+    <td><%=h remote_asset.mime_from %></td>
     <td><%=h remote_asset.filename %></td>
     <td><%= link_to 'Show', remote_asset %></td>
     <td><%= link_to 'Edit', edit_remote_asset_path(remote_asset) %></td>
