@@ -1,9 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  mime_from: MyString
-  filename: MyString
+  mime_from: 'jpeg'
+  source_url: <%= RAILS_ROOT + '/tmp/hallway.jpg' %>
+  filename: <%= RAILS_ROOT + '/tmp/fixture_test' %> 
 
-two:
-  mime_from: MyString
-  filename: MyString

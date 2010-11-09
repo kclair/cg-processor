@@ -9,6 +9,25 @@ class RemoteAsset < ActiveRecord::Base
     t.string   "respond_to_create"
     t.string   "respond_to_update"
     t.string   "source_url"
+    t.string 	"status"  # pending, ???, success, failure
+    t.string	"status_msg"
 =end
+
+  def process 
+    fetch_source
+    self.status ||= 'success'
+    self.save!
+  end
+
+  def fetch_source
+    begin
+      source = open(source_url)  # open(source_url).read
+      File.open("#{RAILS_ROOT}/tmp/#{filename}", 'w') { |f|
+        f.write(source.read)
+      }
+    rescue SystemCallError
+      self.status = "failure"
+    end
+  end
 
 end
