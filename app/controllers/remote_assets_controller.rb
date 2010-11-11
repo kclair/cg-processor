@@ -18,6 +18,7 @@ class RemoteAssetsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @remote_asset }
+      format.json { render :json => @remote_asset }
     end
   end
 

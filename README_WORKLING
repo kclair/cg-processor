@@ -1,0 +1,7 @@
+to start workling:
+
+start starling:
+  starling -d
+
+start workling client:
+  script/workling_client start

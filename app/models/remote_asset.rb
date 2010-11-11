@@ -20,6 +20,10 @@ class RemoteAsset < ActiveRecord::Base
   end
 
   def fetch_source
+    if source_url.nil?
+      self.status = 'failure'
+      return
+    end
     begin
       source = open(source_url)  # open(source_url).read
       File.open("#{RAILS_ROOT}/tmp/#{filename}", 'w') { |f|
