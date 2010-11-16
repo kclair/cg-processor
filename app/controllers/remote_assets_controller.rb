@@ -30,6 +30,7 @@ class RemoteAssetsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @remote_asset }
+      format.json { render :json => @remote_asset }
     end
   end
 
@@ -41,7 +42,7 @@ class RemoteAssetsController < ApplicationController
   # POST /remote_assets
   # POST /remote_assets.xml
   def create
-    @asset = RemoteAsset.new(JSON.parse(params[:asset]))
+    @asset = RemoteAsset.new(params[:remote_asset])
 
     respond_to do |format|
       if @asset.save
