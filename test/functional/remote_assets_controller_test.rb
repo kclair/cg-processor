@@ -12,9 +12,9 @@ class RemoteAssetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create remote_asset" do
+  test "should create and process remote_asset" do
     assert_difference('RemoteAsset.count') do
-      post :create, :asset => {:mime_from => 'jpeg', :filename => 'filename', :source_url => "#{RAILS_ROOT}/tmp/hallway.jpg"}.to_json, :format => 'json'
+      post :create, :remote_asset => {:mime_from => 'jpeg', :filename => 'filename', :source_url => "#{RAILS_ROOT}/tmp/hallway.jpg"}, :format => 'json'
     end
     asset = JSON.parse(@response.body)
     assert_equal asset['result'], 1
@@ -33,6 +33,12 @@ class RemoteAssetsControllerTest < ActionController::TestCase
   test "should show remote_asset" do
     get :show, :id => remote_assets(:one).to_param
     assert_response :success
+  end
+
+  test "should show remote asset in json" do
+    get :show, :id => remote_assets(:one).to_param, :format => 'json'
+    response = JSON.parse(@response.body)
+    assert_equal remote_assets(:one).id, response['remote_asset']['id']
   end
 
   test "should get edit" do
