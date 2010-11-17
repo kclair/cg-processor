@@ -14,6 +14,8 @@ class RemoteAsset < ActiveRecord::Base
     t.string   "worker_uuid"
 =end
 
+  named_scope :in_progress, :conditions => ['status = "queued" OR status = "processing"']
+
   def process 
     self.update_attribute('status', 'processing') && self.save!
     fetch_source

@@ -1,10 +1,11 @@
 require 'test_helper'
 
 class RemoteAssetsControllerTest < ActionController::TestCase
-  test "should get index" do
-    get :index
+  test "should get index of in progress processes" do
+    get :index, :format => 'json'
     assert_response :success
-    assert_not_nil assigns(:remote_assets)
+    assert_equal assigns(:remote_assets), [remote_assets(:two), remote_assets(:three)] 
+    assert_equal [remote_assets(:two), remote_assets(:three)].to_json, @response.body
   end
 
   test "should get new" do

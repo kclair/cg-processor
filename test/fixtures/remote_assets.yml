@@ -1,7 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
+  id: 1
   mime_from: 'jpeg'
   source_url: <%= RAILS_ROOT + '/tmp/hallway.jpg' %>
   filename: <%= RAILS_ROOT + '/tmp/fixture_test' %> 
-
+two:
+  id: 2
+  status: 'queued'
+three:
+  id: 3
+  status: 'processing'

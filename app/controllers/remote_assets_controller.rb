@@ -2,11 +2,16 @@ class RemoteAssetsController < ApplicationController
   # GET /remote_assets
   # GET /remote_assets.xml
   def index
-    @remote_assets = RemoteAsset.all
+    @remote_assets = RemoteAsset.in_progress
+    # this would return an array of ids instead of a an array of objects
+    #@remote_assets.collect!{ |asset| asset.id }
+    # this would return a hash of object-like hashes with just the ids that activerecord could consume
+    #@remote_assets.collect!{ |asset| {:remote_asset => {:id => asset.id}} }
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @remote_assets }
+      #format.html # index.html.erb
+      #format.xml  { render :xml => @remote_assets }
+      format.json { render :json => @remote_assets }
     end
   end
 
