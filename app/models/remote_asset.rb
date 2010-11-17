@@ -11,26 +11,28 @@ class RemoteAsset < ActiveRecord::Base
     t.string   "source_url"
     t.string 	"status"  # pending, ???, success, failure
     t.string	"status_msg"
+    t.string   "worker_uuid"
 =end
 
   def process 
+    self.update_attribute('status', 'processing') && self.save!
     fetch_source
-    self.status ||= 'success'
+    self.status ||= 'succeeded'
     self.save!
   end
 
   def fetch_source
     if source_url.nil?
-      self.status = 'failure'
+      self.status = 'failed'
       return
     end
     begin
-      source = open(source_url)  # open(source_url).read
+     source = open(source_url)  # open(source_url).read
       File.open("#{RAILS_ROOT}/tmp/#{filename}", 'w') { |f|
         f.write(source.read)
       }
     rescue SystemCallError
-      self.status = "failure"
+      self.status = "failed"
     end
   end
 

@@ -46,7 +46,6 @@ class RemoteAssetsController < ApplicationController
 
     respond_to do |format|
       if @asset.save
-        @uid = AssetWorker.asynch_process(:id => @asset.id)
         format.html { redirect_to(@asset, :notice => 'Asset was successfully created.') }
         format.xml  { render :xml => @asset, :status => :created, :location => @asset }
         format.json { render :json => {:result => 1, :id => @asset.id}.to_json }

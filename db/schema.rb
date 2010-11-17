@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101109194308) do
+ActiveRecord::Schema.define(:version => 20101116230129) do
 
   create_table "assets", :force => true do |t|
     t.string   "mime_type"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20101109194308) do
     t.string   "source_url"
     t.string   "status"
     t.string   "status_msg"
+    t.string   "worker_uuid"
   end
 
 end
