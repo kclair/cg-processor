@@ -26,12 +26,11 @@ class RemoteAsset < ActiveRecord::Base
   # can be subclassed for different mime types
   def process_file
     if self.mime_from == 'test'
-      pid = fork { exec('ruby /usr/local/bin/rubysleep.rb') }
+      pid = fork { sleep 30 }
       Process.detach(pid)
       while pid_alive?(pid)
         sleep 5
-        log_status(nil, "pid #{pid} still alive...")
-        puts "#{pid} still alive"
+        log_status(nil, "pid #{pid} still alive... at #{Time.now}")
       end
       log_status('succeeded')
     end
