@@ -17,18 +17,17 @@ class RemoteAssetTest < ActiveSupport::TestCase
     assert asset.status_msg =~ /source url blank/
   end
 
-  test "odt to pdf" do
-    asset = remote_assets(:odt)
-    asset.process
-    puts asset.status_msg
-    assert_equal "succeeded", asset.status
-  end
+#  test "odt to pdf" do
+#    asset = remote_assets(:odt)
+#    asset.process
+#    puts asset.status_msg
+#    assert_equal "succeeded", asset.status
+#  end
 
   test "test exec" do
     asset = remote_assets(:test)
     asset.process
-    puts asset.status_msg
-    assert_equal "succeeded", asset.status
+    assert asset.status_msg =~ /stdout 0\nstderr 0\nstdout 1\nstderr 1/
   end
 
 end

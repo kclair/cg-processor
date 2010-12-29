@@ -3,7 +3,7 @@ module Dismod
     require 'open3'
     include Open3
 
-    def self.run
+    def self.run(object)
        # this prints the output in order but only after the command is finished
 #       Open3.popen3(PYTHON_COMMAND+ ' '+TEST_COMMAND) { |stdin, stdout, stderr|
 #         while str = (stdout.gets or stderr.gets)
@@ -15,9 +15,9 @@ module Dismod
        # it prints the stderr lines as they are printed from the python script
        # and then it prints all the stdout lines at once when the command is finished 
        # based on my reading thus far, it seems like this might be an OS buffering issue
-      IO.popen(PYTHON_COMMAND+' '+TEST_COMMAND+' 2>&1', 'r+') { |o|
+      IO.popen(PYTHON_COMMAND+' -u '+TEST_COMMAND+' 2>&1', 'r+') { |o|
         while str = o.gets
-          puts 'from popen: '+str
+          object.log_status('', str)
         end
       }
 

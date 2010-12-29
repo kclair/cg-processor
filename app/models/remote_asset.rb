@@ -26,7 +26,7 @@ class RemoteAsset < ActiveRecord::Base
   # can be subclassed for different mime types
   def process_file
     if self.mime_from == 'test'
-      Dismod::Processor.run()
+      Dismod::Processor.run(self)
     end
   end
 
@@ -55,7 +55,7 @@ class RemoteAsset < ActiveRecord::Base
   def log_status(status=nil, status_msg=nil)
     write_attribute(:status, status) if status
     return if !status_msg
-    status_msg = (read_attribute(:status_msg) ? read_attribute(:status_msg)+"\n" : '')+status_msg
+    status_msg = (read_attribute(:status_msg) ? read_attribute(:status_msg)+"\n" : '')+status_msg.chomp
     write_attribute(:status_msg, status_msg)
   end
 end
