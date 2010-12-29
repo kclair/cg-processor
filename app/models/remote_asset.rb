@@ -26,25 +26,7 @@ class RemoteAsset < ActiveRecord::Base
   # can be subclassed for different mime types
   def process_file
     if self.mime_from == 'test'
-      pid = fork { sleep 30 }
-      Process.detach(pid)
-      while pid_alive?(pid)
-        sleep 5
-        log_status(nil, "pid #{pid} still alive... at #{Time.now}")
-      end
-      log_status('succeeded')
-    end
-    if self.mime_from == 'odt'
-      log_status('succeeded')
-    end
-  end
-
-  def pid_alive?(pid)
-    begin
-      Process.kill 0, pid
-      true
-    rescue
-      false
+      Dismod::Processor.run()
     end
   end
 
