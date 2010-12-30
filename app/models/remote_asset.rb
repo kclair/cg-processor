@@ -17,6 +17,7 @@ class RemoteAsset < ActiveRecord::Base
   named_scope :in_progress, :conditions => ['status = "queued" OR status = "processing"']
 
   def process 
+    log_status("processing", 'beginning do_process')
     check_filename
     fetch_source
     process_file
@@ -26,7 +27,7 @@ class RemoteAsset < ActiveRecord::Base
   # can be subclassed for different mime types
   def process_file
     if self.mime_from == 'test'
-      Dismod::Processor.run { |msg| self.log_status('', msg) }
+      pid = Dismod::Processor.run_fork
     end
   end
 
@@ -55,7 +56,8 @@ class RemoteAsset < ActiveRecord::Base
   def log_status(status=nil, status_msg=nil)
     write_attribute(:status, status) if status
     return if !status_msg
-    status_msg = (read_attribute(:status_msg) ? read_attribute(:status_msg)+"\n" : '')+status_msg.chomp
+    status_msg = (read_attribute(:status_msg) ? read_attribute(:status_msg) : '')+status_msg
     write_attribute(:status_msg, status_msg)
+    save!
   end
 end
