@@ -10,12 +10,30 @@ module Dismod
           end
         end
       }
+      yield("done with pipe: #{$!}")
     end
 
     def self.run_fork
-      pid = fork { exec(PYTHON_COMMAND+' -u '+TEST_COMMAND) }
+      pid = fork { exec(PYTHON_COMMAND+' -u '+TEST_COMMAND+ '-stdout /path/to/stdout -stderr /path/to/stderr') }
       Process.detach(pid)
+         IO.popen('tail -f /path') { |tail|
+           loop do
+             puts tail.gets
+             break if !pid_alive?(pid)
+           end
+         }
+         # tail file
+         # log output from the file
       return pid
+    end
+
+    def pid_alive?(pid)
+      begin
+        Process.kill 0, pid
+        true
+      raise
+        false
+      end
     end
 
   end
