@@ -13,27 +13,36 @@ module Dismod
       yield("done with pipe: #{$!}")
     end
 
-    def self.run_fork
-      pid = fork { exec(PYTHON_COMMAND+' -u '+TEST_COMMAND+ '-stdout /path/to/stdout -stderr /path/to/stderr') }
-      Process.detach(pid)
-         IO.popen('tail -f /path') { |tail|
-           loop do
-             puts tail.gets
-             break if !pid_alive?(pid)
-           end
-         }
-         # tail file
-         # log output from the file
-      return pid
+    def self.run_fork(id)
+      workdir = WORKING_DIR+'/'+id
+      command = RUBY_COMMAND+' '+TEST_FORK_COMMAND+ ' -o '+workdir+'/stdout/ -e '+workdir+'/stderr'
+      if Process.respond_to?(:fork)
+        trap("CLD") { 
+          yield self.tail_files(workdir)
+          return
+        }
+        exec(command) if fork == nil
+        loop do
+          yield self.tail_files(workdir)
+          sleep 2 
+        end
+      else
+        puts "No fork available"
+      end
     end
 
-    def pid_alive?(pid)
-      begin
-        Process.kill 0, pid
-        true
-      raise
-        false
+    private
+
+    def self.tail_files(dir)
+      ret = ''
+      ['stderr', 'stdout'].each do |file|
+        [Dir.glob(dir+'/'+file+'/*')].each do |d|
+          d.each do |f|
+            ret = ret + IO.readlines(f)[-1]
+          end
+        end
       end
+      return ret
     end
 
   end
