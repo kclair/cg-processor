@@ -20,3 +20,4 @@ test:
   id: 5
   mime_from: 'test'
   source_url: <%= RAILS_ROOT + '/tmp/test' %>
+  worker_uuid: '111'

@@ -24,10 +24,18 @@ class RemoteAssetTest < ActiveSupport::TestCase
 #    assert_equal "succeeded", asset.status
 #  end
 
-  test "test exec" do
+#  test "test exec" do
+#    asset = remote_assets(:test)
+#    asset.process
+#    assert asset.status_msg =~ /stdout 0\nstderr 0\nstdout 1\nstderr 1/
+#  end
+
+  test "exec_fork" do
     asset = remote_assets(:test)
     asset.process
-    assert asset.status_msg =~ /stdout 0\nstderr 0\nstdout 1\nstderr 1/
+    assert_equal 'succeeded', asset.status
+    assert asset.status_msg =~ /hello to stdout/
+    assert asset.status_msg =~ /hello to stderr/
   end
 
 end
