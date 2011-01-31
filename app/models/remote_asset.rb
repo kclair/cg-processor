@@ -26,7 +26,7 @@ class RemoteAsset < ActiveRecord::Base
   # this should be moved into a module or a plugin that 
   # can be subclassed for different mime types
   def process_file
-    Dismod::Processor.run_fork(self.worker_uuid) {|str| self.log_status(nil, str) }
+    Dismod::Processor.run_fork(self.id) {|str| self.log_status(nil, str) }
     #Dismod::Processor.run_pipe { |str| self.log_status(nil, str) }
     log_status('succeeded')
   end
