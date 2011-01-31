@@ -14,7 +14,7 @@ module Dismod
     end
 
     def self.run_fork(id)
-      workdir = WORKING_DIR+'/'+id
+      workdir = WORKING_DIR+'/asset_'+id.to_s
       command = RUBY_COMMAND+' '+TEST_FORK_COMMAND+ ' -o '+workdir+'/stdout/ -e '+workdir+'/stderr'
       if Process.respond_to?(:fork)
         trap("CLD") { 
@@ -38,7 +38,7 @@ module Dismod
       ['stderr', 'stdout'].each do |file|
         [Dir.glob(dir+'/'+file+'/*')].each do |d|
           d.each do |f|
-            ret = ret + IO.readlines(f)[-1]
+            ret = (tail = IO.readlines(f)[-1]) ? (ret+tail) : ret
           end
         end
       end
