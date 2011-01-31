@@ -20,15 +20,20 @@ class RemoteAsset < ActiveRecord::Base
     log_status("processing", 'beginning do_process')
     check_filename and 
     fetch_source and
+    set_workdir and
     process_file
   end
 
   # this should be moved into a module or a plugin that 
   # can be subclassed for different mime types
   def process_file
-    Dismod::Processor.run_fork(self.id) {|str| self.log_status(nil, str) }
-    #Dismod::Processor.run_pipe { |str| self.log_status(nil, str) }
-    log_status('succeeded')
+    process_status = Dismod::Processor.run_fork(self.id, self.workdir)
+    log_status('finished', process_status.to_s)
+  end
+
+  def set_workdir
+    write_attribute(:workdir, '/tmp/asset_'+self.id.to_s)
+    save!
   end
 
   def check_filename
@@ -54,8 +59,29 @@ class RemoteAsset < ActiveRecord::Base
       }
     rescue SystemCallError
       log_status('failed', $!)
+      return false
     end
     return true
+  end
+
+  def stdout
+    tail_files(File.join(self.workdir, 'stdout'))
+  end
+
+  def stderr
+    tail_files(File.join(self.workdir, 'stderr'))
+  end
+
+  private
+
+  def tail_files(dir)
+    ret = ''
+    [Dir.glob(dir+'/*')].each do |d|
+      d.each do |f|
+        ret = (tail = IO.readlines(f)[-1]) ? (ret+tail) : ret
+      end
+    end
+    return ret
   end
 
   def log_status(status=nil, status_msg=nil)
